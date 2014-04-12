@@ -22,4 +22,10 @@ when "DB::ProgLookup"
   puts "Code: " + result.code.to_s
   puts "Message: " + (result.message || "")
   pp result
+when "DB::ChLookup"
+  puts Syobocal::DB::ChLookup.url(params)
+  result = Syobocal::DB::ChLookup.get(params)
+  puts "Code: " + result.code.to_s
+  puts "Message: " + (result.message || "")
+  pp result
 end
