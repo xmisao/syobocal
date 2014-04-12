@@ -28,4 +28,10 @@ when "DB::ChLookup"
   puts "Code: " + result.code.to_s
   puts "Message: " + (result.message || "")
   pp result
+when "DB::ChGroupLookup"
+  puts Syobocal::DB::ChGroupLookup.url(params)
+  result = Syobocal::DB::ChGroupLookup.get(params)
+  puts "Code: " + result.code.to_s
+  puts "Message: " + (result.message || "")
+  pp result
 end

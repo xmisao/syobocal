@@ -6,7 +6,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleLookup' + format_params(params)
+        'http://cal.syoboi.jp/db.php?Command=TitleLookup' + Syobocal::DB.format_params_amp(params)
       end
 
       def parse(xml)
@@ -27,13 +27,6 @@ module Syobocal
 
       module_function :get, :url, :parse
 
-      def self.format_params(params)
-        return "" if params.length == 0
-
-        "&" + params.to_a.map{|tuple|
-          tuple[0].to_s + '=' + tuple[1].to_s
-        }.join('&')
-      end
 
       class Mapper
         include Syobocal::Util::Mapper::ElementsMapper
@@ -69,7 +62,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ProgLookup' + format_params(params)
+        'http://cal.syoboi.jp/db.php?Command=ProgLookup' + Syobocal::DB.format_params_amp(params)
       end
 
       def parse(xml)
@@ -89,14 +82,6 @@ module Syobocal
       end
 
       module_function :get, :url, :parse
-
-      def self.format_params(params)
-        return "" if params.length == 0
-
-        "&" + params.to_a.map{|tuple|
-          tuple[0].to_s + '=' + tuple[1].to_s
-        }.join('&')
-      end
 
       class Mapper
         include Syobocal::Util::Mapper::ElementsMapper
@@ -129,7 +114,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ChLookup' + format_params(params)
+        'http://cal.syoboi.jp/db.php?Command=ChLookup' + Syobocal::DB.format_params_amp(params)
       end
 
       def parse(xml)
@@ -150,14 +135,6 @@ module Syobocal
 
       module_function :get, :url, :parse
 
-      def self.format_params(params)
-        return "" if params.length == 0
-
-        "&" + params.to_a.map{|tuple|
-          tuple[0].to_s + '=' + tuple[1].to_s
-        }.join('&')
-      end
-
       class Mapper
         include Syobocal::Util::Mapper::ElementsMapper
 
@@ -175,6 +152,56 @@ module Syobocal
           }
         end
       end
+    end
+
+    module ChGroupLookup
+      def get(params = {})
+        parse(open(url(params)))
+      end
+
+      def url(params)
+        'http://cal.syoboi.jp/db.php?Command=ChGroupLookup' + Syobocal::DB.format_params_amp(params)
+      end
+
+      def parse(xml)
+        xml = REXML::Document.new(xml)
+
+        result = Result.new
+
+        result.code = xml.elements['ChGroupLookupResponse/Result/Code'].text.to_i
+        result.message = xml.elements['ChGroupLookupResponse/Result/Message'].text
+
+        xml.elements.each('ChGroupLookupResponse/ChGroupItems/ChGroupItem'){|item|
+          mapper = Mapper.new
+          result << mapper.map(item)
+        }
+
+        result
+      end
+
+      module_function :get, :url, :parse
+
+      class Mapper
+        include Syobocal::Util::Mapper::ElementsMapper
+
+        def initialize
+          @map = {
+            "LastUpdate" => :time,
+            "ChGID" => :int,
+            "ChGroupName" => :str,
+            "ChGroupComment" => :str,
+            "ChGroupOrder" => :int,
+          }
+        end
+      end
+    end
+
+    def self.format_params_amp(params)
+      return "" if params.length == 0
+
+      "&" + params.to_a.map{|tuple|
+        tuple[0].to_s + '=' + tuple[1].to_s
+      }.join('&')
     end
 
     class Result < DelegateClass(Array)
