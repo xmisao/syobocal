@@ -1,17 +1,25 @@
-require 'syoboi'
+require 'syobocal'
 require 'pp'
 
 command = ARGV[0]
 params = {}
 params = eval(ARGV[1]) if ARGV[1]
 
+$SYOBOCAL_STRICT = true
+
 case command
 when "CalChk"
-  pp Syoboi::CalChk.get(params)
+  pp Syobocal::CalChk.get(params)
 when "DB::TitleLookup"
-  puts Syoboi::DB::TitleLookup.url(params)
-  result = Syoboi::DB::TitleLookup.get(params)
-  puts result.code
-  puts result.message
+  puts Syobocal::DB::TitleLookup.url(params)
+  result = Syobocal::DB::TitleLookup.get(params)
+  puts "Code: " + result.code.to_s
+  puts "Message: " + (result.message || "")
+  pp result
+when "DB::ProgLookup"
+  puts Syobocal::DB::ProgLookup.url(params)
+  result = Syobocal::DB::ProgLookup.get(params)
+  puts "Code: " + result.code.to_s
+  puts "Message: " + (result.message || "")
   pp result
 end

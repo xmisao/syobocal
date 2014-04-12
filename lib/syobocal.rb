@@ -2,5 +2,6 @@ require 'open-uri'
 require 'rexml/document'
 require 'delegate'
 
-require_relative 'syoboi/calchk.rb'
-require_relative 'syoboi/db.rb'
+require_relative 'syobocal/util/mapper.rb'
+require_relative 'syobocal/calchk.rb'
+require_relative 'syobocal/db.rb'

@@ -1,4 +1,4 @@
-module Syoboi
+module Syobocal
   module Util
     module Mapper
       module ElementsMapper
@@ -26,7 +26,7 @@ module Syoboi
               when :time
                 val = Time.parse(elm.text)
               else
-                raise "Undefined mapping for #{key}" if $SYOBOI_OPTION_STRICT
+                raise "Undefined mapping for #{key}" if $SYOBOCAL_STRICT
                 val = elm.text
               end
             end

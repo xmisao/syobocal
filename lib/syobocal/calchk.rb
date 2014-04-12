@@ -1,4 +1,4 @@
-module Syoboi
+module Syobocal
   module CalChk
     def get(params = {})
       xml = REXML::Document.new(open(url(params)))
