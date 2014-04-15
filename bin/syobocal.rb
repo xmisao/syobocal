@@ -78,4 +78,40 @@ when "DB::TitlePointTop"
     puts "Columns: " + result.columns.join(', ')
   end
   pp result
+when "JSON::TitleMedium"
+  puts Syobocal::JSON::TitleMedium.url(params)
+  result = Syobocal::JSON::TitleMedium.get(params)
+  pp result
+when "JSON::TitleLarge"
+  puts Syobocal::JSON::TitleLarge.url(params)
+  result = Syobocal::JSON::TitleLarge.get(params)
+  pp result
+when "JSON::TitleFull"
+  puts Syobocal::JSON::TitleFull.url(params)
+  result = Syobocal::JSON::TitleFull.get(params)
+  pp result
+when "JSON::ProgramByPID"
+  puts Syobocal::JSON::ProgramByPID.url(params)
+  result = Syobocal::JSON::ProgramByPID.get(params)
+  pp result
+when "JSON::ProgramByCount"
+  puts Syobocal::JSON::ProgramByCount.url(params)
+  result = Syobocal::JSON::ProgramByCount.get(params)
+  pp result
+when "JSON::ProgramByData"
+  puts Syobocal::JSON::ProgramByData.url(params)
+  result = Syobocal::JSON::ProgramByData.get(params)
+  pp result
+when "JSON::SubTitles"
+  puts Syobocal::JSON::SubTitles.url(params)
+  result = Syobocal::JSON::SubTitles.get(params)
+  pp result
+when "JSON::ChFilter"
+  puts Syobocal::JSON::ChFilter.url(params)
+  result = Syobocal::JSON::ChFilter.get(params)
+  pp result
+when "JSON::ChIDFilter"
+  puts Syobocal::JSON::ChIDFilter.url(params)
+  result = Syobocal::JSON::ChIDFilter.get(params)
+  pp result
 end

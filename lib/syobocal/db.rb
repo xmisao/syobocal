@@ -1,12 +1,46 @@
 module Syobocal
   module DB
+    module Mapper
+      def map(elm)
+        result = {}
+        elm.each_element{|child|
+          set(result, to_snake(child.name).to_sym, child, @map[child.name]) 
+        }
+        result
+      end
+
+      def to_snake(name)
+        name.gsub(/([a-z])([A-Z])/){ $1 + '_' + $2 }.downcase
+      end
+
+      def set(hash, key, elm, type)
+        if elm
+          val = nil
+          if elm.text
+            case type
+            when :str
+              val = elm.text
+            when :int
+              val = elm.text.to_i
+            when :time
+              val = Time.parse(elm.text)
+            else
+              raise "Undefined mapping for #{key}" if $SYOBOCAL_STRICT
+              val = elm.text
+            end
+          end
+          hash[key] = val
+        end
+      end
+    end
+
     module TitleLookup
       def get(params = {})
         parse(open(url(params)))
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleLookup' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=TitleLookup' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -27,9 +61,8 @@ module Syobocal
 
       module_function :get, :url, :parse
 
-
       class Mapper
-        include Syobocal::Util::Mapper::ElementsMapper
+        include Syobocal::DB::Mapper
 
         def initialize
           @map = {
@@ -62,7 +95,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ProgLookup' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=ProgLookup' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -84,7 +117,7 @@ module Syobocal
       module_function :get, :url, :parse
 
       class Mapper
-        include Syobocal::Util::Mapper::ElementsMapper
+        include Syobocal::DB::Mapper
 
         def initialize
           @map = {
@@ -114,7 +147,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ChLookup' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=ChLookup' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -136,7 +169,7 @@ module Syobocal
       module_function :get, :url, :parse
 
       class Mapper
-        include Syobocal::Util::Mapper::ElementsMapper
+        include Syobocal::DB::Mapper
 
         def initialize
           @map = {
@@ -160,7 +193,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ChGroupLookup' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=ChGroupLookup' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -182,7 +215,7 @@ module Syobocal
       module_function :get, :url, :parse
 
       class Mapper
-        include Syobocal::Util::Mapper::ElementsMapper
+        include Syobocal::DB::Mapper
 
         def initialize
           @map = {
@@ -202,7 +235,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleViewCount' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=TitleViewCount' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -218,7 +251,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleRankHistory' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=TitleRankHistory' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -234,7 +267,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitlePointHistory' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=TitlePointHistory' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -250,7 +283,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitlePointTop' + Syobocal::DB.format_params_amp(params)
+        'http://cal.syoboi.jp/db.php?Command=TitlePointTop' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -258,14 +291,6 @@ module Syobocal
       end
 
       module_function :get, :url, :parse
-    end
-
-    def self.format_params_amp(params)
-      return "" if params.length == 0
-
-      "&" + params.to_a.map{|tuple|
-        tuple[0].to_s + '=' + tuple[1].to_s
-      }.join('&')
     end
 
     def self.parse_table_data(xml)
