@@ -45,6 +45,7 @@ JSONをパースした結果はJSONのデータ構造をそのまま返します
 
 ~~~~
 require 'syoboi'
+require 'pp'
 params = {"TID" => "1"}
 pp Syoboi::DB::TitleLookup(params)
 ~~~~
