@@ -1,7 +1,15 @@
 module Syobocal
   module CalChk
     def get(params = {})
-      xml = REXML::Document.new(open(url(params)))
+      parse(open(url(params)))
+    end
+
+    def url(params = {})
+      'http://cal.syoboi.jp/cal_chk.php' + Syobocal::Util.format_params(params)
+    end
+
+    def parse(xml)
+      xml = REXML::Document.new(xml)
 
       result = Result.new
 
@@ -31,19 +39,7 @@ module Syobocal
       result
     end
 
-    def url(params)
-      'http://cal.syoboi.jp/cal_chk.php' + format_params(params)
-    end
-
-    def self.format_params(params)
-      return "" if params.length == 0
-
-      '?' + params.to_a.map{|tuple|
-        tuple[0] + '=' + tuple[1]
-      }.join('&')
-    end
-
-    module_function :get, :url
+    module_function :get, :url, :parse
 
     class Result < DelegateClass(Array)
       attr_accessor :url, :version, :last_update, :spid, :spname
