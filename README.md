@@ -70,3 +70,11 @@ syoboi DB::TitleLookup "{'TID' => '1'}"
 ~~~~
 anime
 ~~~~
+
+## 作者
+
+- [xmisao](http://www.xmisao.com/)
+
+## ライセンス
+
+This library is distributed under the MIT license.
