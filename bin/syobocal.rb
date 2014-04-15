@@ -114,4 +114,19 @@ when "JSON::ChIDFilter"
   puts Syobocal::JSON::ChIDFilter.url(params)
   result = Syobocal::JSON::ChIDFilter.get(params)
   pp result
+when "RSS"
+  puts Syobocal::RSS.url(params)
+  result = Syobocal::RSS.get(params)
+  puts "Title: " + result.title
+  puts "link: " + result.link
+  puts "Description: " + result.description
+  pp result
+when "RSS2"
+  puts Syobocal::RSS2.url(params)
+  result = Syobocal::RSS2.get(params)
+  puts "Title: " + result.title
+  puts "link: " + result.link
+  puts "Language: " + result.dc_language
+  puts "PubDate: " + result.pub_date.to_s
+  pp result
 end
