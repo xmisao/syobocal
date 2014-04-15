@@ -1,4 +1,7 @@
-require 'syoboi'
+#! /usr/bin/env ruby
+# coding:utf-8
+
+require 'syobocal'
 
 def format_time(time)
   h = time.hour
@@ -8,7 +11,8 @@ def format_time(time)
   sprintf("%2d:%02d", h, m)
 end
 
-result = Syoboi::CalChk.get()
+params = {"days" => "1"}
+result = Syobocal::CalChk.get(params)
 
 puts "これから放送されるアニメ＠首都圏\n"
 

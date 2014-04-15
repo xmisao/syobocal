@@ -1,3 +1,6 @@
+#! /usr/bin/env ruby
+# coding:utf-8
+
 require 'syobocal'
 require 'pp'
 
@@ -129,4 +132,7 @@ when "RSS2"
   puts "Language: " + result.dc_language
   puts "PubDate: " + result.pub_date.to_s
   pp result
+else
+  $stderr.puts "Unknown command or command was not specified."
+  $stderr.puts "Example: syobocal CalChk"
 end
