@@ -37,7 +37,7 @@ gem install syobocal
 ## 使い方
 
 エンドポイントごとにモジュールを切っています。
-例えば`db.php`の`TitleLookup`に対応したモジュールは`Syoboi::DB::TitleLookup`です。
+例えば`db.php`の`TitleLookup`に対応したモジュールは`Syobocal::DB::TitleLookup`です。
 各モジュールには以下のモジュール関数が定義されています。
 
 - get() -- データを取得してパースして返す
@@ -50,10 +50,10 @@ XMLやRSSをパースした結果は値が適切な型に変換されたハッ�
 JSONをパースした結果はJSONのデータ構造をそのまま返します。
 
 ~~~~
-require 'syoboi'
+require 'syobocal'
 require 'pp'
 params = {"TID" => "1"}
-pp Syoboi::DB::TitleLookup(params)
+pp Syobocal::DB::TitleLookup.get(params)
 ~~~~
 
 ## おまけ
@@ -67,7 +67,7 @@ pp Syoboi::DB::TitleLookup(params)
 詳しくはソースを見て下さい。
 
 ~~~~
-syoboi DB::TitleLookup "{'TID' => '1'}"
+syobocal DB::TitleLookup "{'TID' => '1'}"
 ~~~~
 
 ### anime
