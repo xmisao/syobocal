@@ -79,7 +79,7 @@ module Syobocal
             "FirstMonth" => :int,
             "FirstEndYear" => :int,
             "FirstEndMonth" => :int,
-            "FirstCh" => :int,
+            "FirstCh" => :str,
             "Keywords" => :str,
             "UserPoint" => :int,
             "UserPointRank" => :int,
