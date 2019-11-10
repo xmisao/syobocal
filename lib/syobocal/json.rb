@@ -86,7 +86,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ProgramByData' + Syobocal::Util.format_params_amp(params)
+        'http://cal.syoboi.jp/json.php?Req=ProgramByDate' + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)

@@ -101,9 +101,9 @@ when "JSON::ProgramByCount"
   puts Syobocal::JSON::ProgramByCount.url(params)
   result = Syobocal::JSON::ProgramByCount.get(params)
   pp result
-when "JSON::ProgramByData"
-  puts Syobocal::JSON::ProgramByData.url(params)
-  result = Syobocal::JSON::ProgramByData.get(params)
+when "JSON::ProgramByDate"
+  puts Syobocal::JSON::ProgramByDate.url(params)
+  result = Syobocal::JSON::ProgramByDate.get(params)
   pp result
 when "JSON::SubTitles"
   puts Syobocal::JSON::SubTitles.url(params)
