@@ -6,7 +6,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=TitleMedium' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=TitleMedium" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -22,7 +22,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=TitleLarge' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=TitleLarge" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -38,7 +38,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=TitleFull' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=TitleFull" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -54,7 +54,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ProgramByPID' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=ProgramByPID" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -70,7 +70,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ProgramByCount' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=ProgramByCount" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -86,7 +86,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ProgramByDate' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=ProgramByDate" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -102,7 +102,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=SubTitles' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=SubTitles" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -118,7 +118,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ChFilter' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=ChFilter" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
@@ -134,7 +134,7 @@ module Syobocal
       end
 
       def url(params = {})
-        'http://cal.syoboi.jp/json.php?Req=ChIDFilter' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/json.php?Req=ChIDFilter" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(json)
