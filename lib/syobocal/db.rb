@@ -3,14 +3,14 @@ module Syobocal
     module Mapper
       def map(elm)
         result = {}
-        elm.each_element{|child|
-          set(result, to_snake(child.name).to_sym, child, @map[child.name]) 
+        elm.each_element { |child|
+          set(result, to_snake(child.name).to_sym, child, @map[child.name])
         }
         result
       end
 
       def to_snake(name)
-        name.gsub(/([a-z])([A-Z])/){ $1 + '_' + $2 }.downcase
+        name.gsub(/([a-z])([A-Z])/) { $1 + "_" + $2 }.downcase
       end
 
       def set(hash, key, elm, type)
@@ -40,7 +40,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleLookup' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=TitleLookup" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -48,10 +48,10 @@ module Syobocal
 
         result = LookupResult.new
 
-        result.code = xml.elements['TitleLookupResponse/Result/Code'].text.to_i
-        result.message = xml.elements['TitleLookupResponse/Result/Message'].text
+        result.code = xml.elements["TitleLookupResponse/Result/Code"].text.to_i
+        result.message = xml.elements["TitleLookupResponse/Result/Message"].text
 
-        xml.elements.each('TitleLookupResponse/TitleItems/TitleItem'){|item|
+        xml.elements.each("TitleLookupResponse/TitleItems/TitleItem") { |item|
           mapper = Mapper.new
           result << mapper.map(item)
         }
@@ -95,7 +95,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ProgLookup' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=ProgLookup" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -103,10 +103,10 @@ module Syobocal
 
         result = LookupResult.new
 
-        result.code = xml.elements['ProgLookupResponse/Result/Code'].text.to_i
-        result.message = xml.elements['ProgLookupResponse/Result/Message'].text
+        result.code = xml.elements["ProgLookupResponse/Result/Code"].text.to_i
+        result.message = xml.elements["ProgLookupResponse/Result/Message"].text
 
-        xml.elements.each('ProgLookupResponse/ProgItems/ProgItem'){|item|
+        xml.elements.each("ProgLookupResponse/ProgItems/ProgItem") { |item|
           mapper = Mapper.new
           result << mapper.map(item)
         }
@@ -147,7 +147,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ChLookup' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=ChLookup" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -155,10 +155,10 @@ module Syobocal
 
         result = LookupResult.new
 
-        result.code = xml.elements['ChLookupResponse/Result/Code'].text.to_i
-        result.message = xml.elements['ChLookupResponse/Result/Message'].text
+        result.code = xml.elements["ChLookupResponse/Result/Code"].text.to_i
+        result.message = xml.elements["ChLookupResponse/Result/Message"].text
 
-        xml.elements.each('ChLookupResponse/ChItems/ChItem'){|item|
+        xml.elements.each("ChLookupResponse/ChItems/ChItem") { |item|
           mapper = Mapper.new
           result << mapper.map(item)
         }
@@ -193,7 +193,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=ChGroupLookup' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=ChGroupLookup" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -201,10 +201,10 @@ module Syobocal
 
         result = LookupResult.new
 
-        result.code = xml.elements['ChGroupLookupResponse/Result/Code'].text.to_i
-        result.message = xml.elements['ChGroupLookupResponse/Result/Message'].text
+        result.code = xml.elements["ChGroupLookupResponse/Result/Code"].text.to_i
+        result.message = xml.elements["ChGroupLookupResponse/Result/Message"].text
 
-        xml.elements.each('ChGroupLookupResponse/ChGroupItems/ChGroupItem'){|item|
+        xml.elements.each("ChGroupLookupResponse/ChGroupItems/ChGroupItem") { |item|
           mapper = Mapper.new
           result << mapper.map(item)
         }
@@ -235,7 +235,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleViewCount' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=TitleViewCount" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -251,7 +251,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitleRankHistory' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=TitleRankHistory" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -267,7 +267,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitlePointHistory' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=TitlePointHistory" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -283,7 +283,7 @@ module Syobocal
       end
 
       def url(params)
-        'http://cal.syoboi.jp/db.php?Command=TitlePointTop' + Syobocal::Util.format_params_amp(params)
+        "http://cal.syoboi.jp/db.php?Command=TitlePointTop" + Syobocal::Util.format_params_amp(params)
       end
 
       def parse(xml)
@@ -298,21 +298,21 @@ module Syobocal
 
       result = TableResult.new
 
-      result.code = xml.elements['TableData/Result/Code'].text.to_i
-      result.message = xml.elements['TableData/Result/Message'].text
+      result.code = xml.elements["TableData/Result/Code"].text.to_i
+      result.message = xml.elements["TableData/Result/Message"].text
 
       result.columns = []
       if result.code == 200
-        result.title = xml.elements['TableData/Title'].text
-        result.type = xml.elements['TableData/Type'].text
+        result.title = xml.elements["TableData/Title"].text
+        result.type = xml.elements["TableData/Type"].text
 
-        xml.elements.each('TableData/Columns/Value'){|item|
+        xml.elements.each("TableData/Columns/Value") { |item|
           result.columns << item.text
         }
 
-        xml.elements.each('TableData/Line'){|line|
+        xml.elements.each("TableData/Line") { |line|
           line_data = {}
-          line.elements.each_with_index{|value, index|
+          line.elements.each_with_index { |value, index|
             key = result.columns[index]
             if key == "Date"
               line_data[key] = Date.parse(value.text)
