@@ -11,5 +11,6 @@ require "syobocal/db.rb"
 require "syobocal/json.rb"
 require "syobocal/rss.rb"
 require "syobocal/rss2.rb"
+require "syobocal/comment/parser.rb"
 
 module Syobocal; end
