@@ -7,6 +7,8 @@ module Syobocal
         elements = []
 
         str.each_line do |line|
+          line.chomp!
+
           if line.start_with?("**")
             txt = line.match(/\A\*\*(.*)\Z/)[1]
 
@@ -22,7 +24,7 @@ module Syobocal
           elsif line.start_with?(":")
             if line.scan(":").length == 1
               m = line.match(/\A:(.*)\Z/)
-              attr = ""
+              attr = Element::Blank.new
               value = parse_text_node(m[1])
             else
               m = line.match(/\A:([^:]*?):(.*)\Z/)
@@ -42,13 +44,15 @@ module Syobocal
       end
 
       def parse_text_node(text)
-        text.split(/(\[\[[^\[\]]*?\]\])/).select { |s| !s.empty? }.map do |part|
+        elements = text.split(/(\[\[[^\[\]]*?\]\])/).select { |s| !s.empty? }.map do |part|
           if part.match(/\A\[\[[^\[\]]*?\]\]\Z/)
             create_link_element(part)
           else
             create_text_element(part)
           end
         end
+
+        Element::TextNode.new(elements)
       end
 
       def create_link_element(part)
@@ -56,12 +60,11 @@ module Syobocal
 
         sep = inner_str.split(/ /)
 
-        if sep.length == 1
-          Element::Link.new(sep.first, nil)
+        if ['http://', 'https://', 'archive://'].any?{|scheme| sep.last.start_with?(scheme) }
+          link = sep.pop
+          Element::Link.new(sep.join(' '), link)
         else
-          str = sep[0..-2].join
-          link = sep[-1]
-          Element::Link.new(str, link)
+          Element::Link.new(sep.join(' '), nil)
         end
       end
 
@@ -72,55 +75,116 @@ module Syobocal
       module_function :parse, :parse_text_node, :create_link_element, :create_text_element
 
       class Result
+        attr_reader :elements
+
         def initialize(elements)
           @elements = elements
+        end
+
+        def ==(other)
+          other.elements == elements
         end
       end
 
       module Element
         class Header2
+          attr_reader :text_node
+
           def initialize(text_node)
             @text_node = text_node
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.text_node == text_node
           end
         end
 
         class Header1
+          attr_reader :text_node
+
           def initialize(text_node)
             @text_node = text_node
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.text_node == text_node
           end
         end
 
         class List
+          attr_reader :text_node
+
           def initialize(text_node)
             @text_node = text_node
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+            other.text_node == text_node
           end
         end
 
         class Row
+          attr_reader :attr_node, :value_node
+
           def initialize(attr_node, value_node)
             @attr_node, @value_node = attr_node, value_node
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.attr_node == attr_node && \
+              other.value_node == value_node
           end
         end
 
         class Blank
           def initialize; end
+
+          def ==(other)
+            other.instance_of?(self.class)
+          end
         end
 
         class TextNode
+          attr_reader :text_elements
+
           def initialize(text_elements)
             @text_elements = text_elements
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.text_elements == text_elements
           end
         end
 
         class Text
+          attr_reader :str
+
           def initialize(str)
             @str = str
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.str == str
           end
         end
 
         class Link
+          attr_reader :str, :url
+
           def initialize(str, url)
             @str, @url = str, url
+          end
+
+          def ==(other)
+            other.instance_of?(self.class) && \
+              other.str == str && \
+              other.url == url
           end
         end
       end
