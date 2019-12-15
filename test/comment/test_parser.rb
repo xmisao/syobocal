@@ -77,8 +77,7 @@ COMMENT
       Element::Blank.new,
     ]
     expected = Element::Root.new(expected_elements)
-
-    actual = Parser.new.parse(comment)
+    actual = Parser.new(comment).parse
 
     assert_equal expected, actual
   end
@@ -87,6 +86,46 @@ COMMENT
     sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
     sample_comment = sample["comment"]
 
-    assert Parser.new.parse(sample_comment).is_a?(Element::Root)
+    assert Parser.new(sample_comment).parse.is_a?(Element::Root)
+  end
+
+  def test_staffs_sample
+    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+    sample_comment = sample["comment"]
+
+    parser = Parser.new(sample_comment)
+
+    assert parser.staffs.first.instance_of?(Staff)
+    assert_equal 22, parser.staffs.length
+  end
+
+  def test_casts_sample
+    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+    sample_comment = sample["comment"]
+
+    parser = Parser.new(sample_comment)
+
+    assert parser.casts.first.instance_of?(Cast)
+    assert_equal 11, parser.casts.length
+  end
+
+  def test_links_sample
+    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+    sample_comment = sample["comment"]
+
+    parser = Parser.new(sample_comment)
+
+    assert parser.links.first.instance_of?(Element::Link)
+    assert_equal 5, parser.links.length
+  end
+
+  def test_musics_sample
+    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+    sample_comment = sample["comment"]
+
+    parser = Parser.new(sample_comment)
+
+    assert parser.musics.first.instance_of?(Music)
+    assert_equal 5, parser.musics.length
   end
 end

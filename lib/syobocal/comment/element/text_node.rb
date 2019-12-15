@@ -8,6 +8,10 @@ module Syobocal
           @text_elements = text_elements
         end
 
+        def inner_text
+          text_elements.map(&:str).join("")
+        end
+
         def ==(other)
           other.instance_of?(self.class) && other.text_elements == text_elements
         end

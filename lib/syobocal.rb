@@ -21,5 +21,10 @@ require "syobocal/comment/element/text"
 require "syobocal/comment/element/text_node"
 require "syobocal/comment/element/root"
 require "syobocal/comment/parser"
+require "syobocal/comment/staff"
+require "syobocal/comment/cast"
+require "syobocal/comment/person"
+require "syobocal/comment/music"
+require "syobocal/comment/music_data"
 
 module Syobocal; end
