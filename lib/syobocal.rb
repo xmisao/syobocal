@@ -26,5 +26,6 @@ require "syobocal/comment/cast"
 require "syobocal/comment/person"
 require "syobocal/comment/music"
 require "syobocal/comment/music_data"
+require "syobocal/comment/section"
 
 module Syobocal; end

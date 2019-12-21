@@ -128,4 +128,14 @@ COMMENT
     assert parser.musics.first.instance_of?(Music)
     assert_equal 5, parser.musics.length
   end
+
+  def test_sections_sample
+    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+    sample_comment = sample["comment"]
+
+    parser = Parser.new(sample_comment)
+
+    assert parser.sections.first.instance_of?(Section)
+    assert_equal 11, parser.sections.count
+  end
 end

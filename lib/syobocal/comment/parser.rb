@@ -10,12 +10,7 @@ module Syobocal
         Element::TextNode, # NOTE Sentinel
       ]
 
-      STAFF_WORD = "スタッフ"
-      CAST_WORD = "キャスト"
-      LINK_WORD = "リンク"
       PERSON_SEPARATOR = "、"
-      MUSIC_WORDS = %w(テーマ ソング 歌 曲)
-      MUSIC_TITLE_REGEXP = /「(.+)」/
 
       def initialize(comment)
         @comment = comment
@@ -37,7 +32,7 @@ module Syobocal
       def staffs
         return @staffs if defined? @staffs
 
-        rows = extract_section_rows(STAFF_WORD)
+        rows = sections.find { |section| section.staff_section? }.rows
 
         @staffs = create_staff_list(rows)
       end
@@ -45,7 +40,7 @@ module Syobocal
       def casts
         return @casts if defined? @casts
 
-        rows = extract_section_rows(CAST_WORD)
+        rows = sections.find { |section| section.cast_section? }.rows
 
         @casts = create_cast_list(rows)
       end
@@ -59,56 +54,16 @@ module Syobocal
       def links
         return @links if defined? @links
 
-        @links = extract_section_links(LINK_WORD)
+        @links = sections.find { |section| section.link_section? }.links
+      end
+
+      def sections
+        return @sections if defined? @sections
+
+        @sections = Section.create_sections(parse.elements)
       end
 
       private
-
-      def extract_section_rows(keyword)
-        target_section = false
-        rows = []
-
-        parse.elements.each do |element|
-          if target_section
-            case element
-            when Element::Header1, Element::Header2
-              break
-            when Element::Row
-              rows << element
-            end
-          else
-            if element.is_a?(Element::Header1) && element.text_node.inner_text.include?(keyword)
-              target_section = true
-            end
-          end
-        end
-
-        rows
-      end
-
-      def extract_section_links(keyword)
-        target_section = false
-        links = []
-
-        parse.elements.each do |element|
-          if target_section
-            case element
-            when Element::Header1, Element::Header2
-              break
-            when Element::List
-              links << element.text_node.text_elements.select { |elm| elm.instance_of? Element::Link }
-            when Element::TextNode
-              links << element.text_elements.select { |elm| elm.instance_of? Element::Link }
-            end
-          else
-            if element.is_a?(Element::Header1) && element.text_node.inner_text.include?(keyword)
-              target_section = true
-            end
-          end
-        end
-
-        links.flatten
-      end
 
       def create_staff_list(rows)
         rows.map do |row|
@@ -139,55 +94,21 @@ module Syobocal
       end
 
       def extract_musics
-        section_header = nil
-        buffered_rows = []
-        music_sections = []
-        musics = []
+        all_sections.each_with_object([]) do |section, musics|
+          musics << section.to_music if section.music_section?
+        end
+      end
 
-        parse.elements.each do |element|
-          if section_header
-            case element
-            when Element::Header1, Element::Header2
-              musics << create_music(section_header, buffered_rows)
+      def all_sections
+        return enum_for(:all_sections) unless block_given?
 
-              section_header = nil
-              buffered_rows = []
+        sections.each do |section|
+          yield section
 
-              if music_section?(element.text_node.inner_text)
-                section_header = element
-              end
-            when Element::Row
-              buffered_rows << element
-            end
-          else
-            if (element.is_a?(Element::Header1) || element.is_a?(Element::Header2)) && music_section?(element.text_node.inner_text)
-              section_header = element
-            end
+          section.sub_sections.each do |sub_section|
+            yield sub_section
           end
         end
-
-        if section_header
-          musics << create_music(section_header, buffered_rows)
-        end
-
-        musics
-      end
-
-      def music_section?(str)
-        MUSIC_WORDS.any? { |keyword| str.include?(keyword) } && str.match(MUSIC_TITLE_REGEXP)
-      end
-
-      def create_music(header, rows)
-        title = header.text_node.inner_text.match(MUSIC_TITLE_REGEXP)[1]
-        category = header.text_node.inner_text.sub(MUSIC_TITLE_REGEXP, "")
-
-        data_list = rows.map do |row|
-          attr = row.attr_node.inner_text
-          value = row.value_node.inner_text
-          MusicData.new(attr, value)
-        end
-
-        Music.new(title, category, data_list)
       end
     end
   end
