@@ -9,4 +9,10 @@ class TestTextNode < MiniTest::Test
 
     assert_equal "hogepiyo", node.inner_text
   end
+
+  def test_split
+    node = TextNode.new([Text.new("hoge、"), Link.new("piyo、", "http://example.com"), Text.new("、foo(bar、baz)")])
+
+    assert_equal ["hoge", "piyo、", "foo(bar、baz)"], node.split
+  end
 end

@@ -10,8 +10,6 @@ module Syobocal
         Element::TextNode, # NOTE Sentinel
       ]
 
-      PERSON_SEPARATOR = "、"
-
       def initialize(comment)
         @comment = comment
       end
@@ -48,7 +46,7 @@ module Syobocal
       def musics
         return @musics if defined? @musics
 
-        @musics = extract_musics
+        @musics = create_musics(all_sections)
       end
 
       def links
@@ -63,42 +61,6 @@ module Syobocal
         @sections = Section.create_sections(parse.elements)
       end
 
-      private
-
-      def create_staff_list(rows)
-        rows.map do |row|
-          role = row.attr_node.inner_text
-          people = parse_people(row.value_node.inner_text)
-
-          Staff.new(role, people)
-        end
-      end
-
-      def create_cast_list(rows)
-        rows.map do |row|
-          charactor = row.attr_node.inner_text
-          people = parse_people(row.value_node.inner_text)
-
-          Cast.new(charactor, people)
-        end
-      end
-
-      def parse_people(people_str)
-        scan_result = people_str.scan(/[^#{PERSON_SEPARATOR}\(]+(?:\(.*?\))?/)
-
-        scan_result.map do |part|
-          _, name, note = *(part.match(/\A([^\(\)]+?)(?:\((.*?)\))?\Z/).to_a)
-
-          Person.new(name, note)
-        end
-      end
-
-      def extract_musics
-        all_sections.each_with_object([]) do |section, musics|
-          musics << section.to_music if section.music_section?
-        end
-      end
-
       def all_sections
         return enum_for(:all_sections) unless block_given?
 
@@ -108,6 +70,32 @@ module Syobocal
           section.sub_sections.each do |sub_section|
             yield sub_section
           end
+        end
+      end
+
+      private
+
+      def create_staff_list(rows)
+        rows.map do |row|
+          role = row.attr_node.inner_text
+          people = row.value_node.split.map { |str| Person.parse(str) }
+
+          Staff.new(role, people)
+        end
+      end
+
+      def create_cast_list(rows)
+        rows.map do |row|
+          character = row.attr_node.inner_text
+          people = row.value_node.split.map { |str| Person.parse(str) }
+
+          Cast.new(character, people)
+        end
+      end
+
+      def create_musics(sections)
+        sections.each_with_object([]) do |section, musics|
+          musics << section.to_music if section.music_section?
         end
       end
     end

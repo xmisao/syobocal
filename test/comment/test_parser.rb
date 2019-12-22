@@ -95,7 +95,9 @@ COMMENT
 
     parser = Parser.new(sample_comment)
 
-    assert parser.staffs.first.instance_of?(Staff)
+    expect = Staff.new("原作", [Person.new("Magica Quartet", nil)])
+    assert_equal expect, parser.staffs.first
+
     assert_equal 22, parser.staffs.length
   end
 
@@ -105,7 +107,9 @@ COMMENT
 
     parser = Parser.new(sample_comment)
 
-    assert parser.casts.first.instance_of?(Cast)
+    expect = Cast.new("鹿目まどか", [Person.new("悠木碧", nil)])
+    assert_equal expect, parser.casts.first
+
     assert_equal 11, parser.casts.length
   end
 
@@ -115,7 +119,9 @@ COMMENT
 
     parser = Parser.new(sample_comment)
 
-    assert parser.links.first.instance_of?(Element::Link)
+    expect = Element::Link.new("公式", "http://www.madoka-magica.com/tv/")
+    assert_equal expect, parser.links.first
+
     assert_equal 5, parser.links.length
   end
 
@@ -125,7 +131,18 @@ COMMENT
 
     parser = Parser.new(sample_comment)
 
-    assert parser.musics.first.instance_of?(Music)
+    expect = Music.new(
+      "コネクト",
+      "オープニングテーマ",
+      [
+        MusicData.new("作詞・作曲", "渡辺翔"),
+        MusicData.new("主題歌協力", "外村敬一"),
+        MusicData.new("歌", "ClariS"),
+        MusicData.new("使用話数", "#1～#9、#11"),
+      ]
+    )
+    assert_equal expect, parser.musics.first
+
     assert_equal 5, parser.musics.length
   end
 
