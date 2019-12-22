@@ -8,6 +8,10 @@ module Syobocal
           other.instance_of?(self.class)
         end
 
+        def inner_text
+          ""
+        end
+
         def self.match?(line)
           line.match(/\A\s*\Z/)
         end

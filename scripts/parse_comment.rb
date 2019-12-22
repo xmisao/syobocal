@@ -9,5 +9,12 @@ sections = []
 
 json.each do |title|
   puts title["tid"]
-  pp Syobocal::Comment::Parser.parse(title["comment"])
+
+  parser = Syobocal::Comment::Parser.new(title["comment"])
+
+  pp parser.parse
+  pp parser.staffs
+  pp parser.casts
+  pp parser.musics
+  pp parser.links
 end

@@ -18,6 +18,7 @@ module Syobocal
 
         def self.parse(line)
           if line.scan(":").length == 1
+            # NOTE :が1つしか含まれない行は:以降が値となる
             m = line.match(/\A:(.*)\Z/)
             attr = Element::Blank.new
             value = Element::TextNode.parse(m[1])

@@ -30,7 +30,7 @@ module Syobocal
       def staffs
         return @staffs if defined? @staffs
 
-        rows = sections.find { |section| section.staff_section? }.rows
+        rows = sections.find { |section| section.staff_section? }&.rows || []
 
         @staffs = create_staff_list(rows)
       end
@@ -38,7 +38,7 @@ module Syobocal
       def casts
         return @casts if defined? @casts
 
-        rows = sections.find { |section| section.cast_section? }.rows
+        rows = sections.find { |section| section.cast_section? }&.rows || []
 
         @casts = create_cast_list(rows)
       end
@@ -52,7 +52,7 @@ module Syobocal
       def links
         return @links if defined? @links
 
-        @links = sections.find { |section| section.link_section? }.links
+        @links = sections.find { |section| section.link_section? }&.links || []
       end
 
       def sections

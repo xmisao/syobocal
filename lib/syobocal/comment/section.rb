@@ -25,7 +25,7 @@ module Syobocal
       CAST_WORD = "キャスト"
       LINK_WORD = "リンク"
       MUSIC_WORDS = %w(テーマ ソング 歌 曲)
-      MUSIC_TITLE_REGEXP = /「(.+)」/
+      MUSIC_TITLE_REGEXP = /\A(.*)「(.+?)」\Z/
 
       def staff_section?
         header.text_node.inner_text.include?(STAFF_WORD)
@@ -46,8 +46,9 @@ module Syobocal
       end
 
       def to_music
-        title = header.text_node.inner_text.match(MUSIC_TITLE_REGEXP)[1]
-        category = header.text_node.inner_text.sub(MUSIC_TITLE_REGEXP, "")
+        m = header.text_node.inner_text.match(MUSIC_TITLE_REGEXP)
+        title = m[2]
+        category = m[1]
 
         data_list = rows.map do |row|
           attr = row.attr_node.inner_text
@@ -105,7 +106,8 @@ module Syobocal
 
         sections.each do |section|
           if section.sub_section?
-            parent_section.add_subsection(section)
+            # NOTE parent_sectionがないパターンは不正なので無視する
+            parent_section.add_subsection(section) if parent_section
           else
             root_sections << section
             parent_section = section
