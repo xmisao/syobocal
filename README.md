@@ -153,6 +153,57 @@ pp parser.musics.first
 #  @title="コネクト">
 ```
 
+### サブタイトルパーサ(ベータ版)
+
+しょぼいカレンダーの`sub_titles`属性をパースして扱いやすい形にして取り出すパーサです。
+
+```ruby
+require 'syobocal'
+require 'pp'
+
+title = Syobocal::DB::TitleLookup.get({'TID' => '2077'})
+sub_titles = title.first[:sub_titles]
+parser = Syobocal::SubTitles::Parser.new(sub_titles)
+
+pp parser.parse
+# [#<Syobocal::SubTitles::SubTitle:0x00005591edc37830
+#   @episode="01",
+#   @title="夢の中で会った、ような・・・・・">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc37448
+#   @episode="02",
+#   @title="それはとっても嬉しいなって">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc370b0
+#   @episode="03",
+#   @title="もう何も恐くない">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc36d40
+#   @episode="04",
+#   @title="奇跡も、魔法も、あるんだよ">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc36c00
+#   @episode="05",
+#   @title="後悔なんて、あるわけない">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc36700
+#   @episode="06",
+#   @title="こんなの絶対おかしいよ">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc36408
+#   @episode="07",
+#   @title="本当の気持ちと向き合えますか？">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc36110
+#   @episode="08",
+#   @title="あたしって、ほんとバカ">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc35c88
+#   @episode="09",
+#   @title="そんなの、あたしが許さない">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc34d38
+#   @episode="10",
+#   @title="もう誰にも頼らない">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc34a68
+#   @episode="11",
+#   @title="最後に残った道しるべ">,
+#  #<Syobocal::SubTitles::SubTitle:0x00005591edc34900
+#   @episode="12",
+#   @title="わたしの、最高の友達">]
+```
+
 ## おまけ
 
 テスト用の`syobocal`コマンドと、これから放送される首都圏のアニメを表示する`anime`コマンドを同梱しています。
