@@ -1,11 +1,11 @@
 require "minitest/autorun"
 require "syobocal"
 
-class TestParser < MiniTest::Test
-  include Syobocal::Comment
-
-  def test_parse
-    comment = <<COMMENT
+module Syobocal
+  module Comment
+    class TestParser < MiniTest::Test
+      def test_parse
+        comment = <<COMMENT
 *hoge
 **piyo
 ***fuga
@@ -18,141 +18,143 @@ Hello, World!
 [[Hello, World! http://example.com]]
 
 COMMENT
-    expected_elements = [
-      Element::Header1.new(
-        Element::TextNode.new(
-          [Element::Text.new("hoge")]
-        )
-      ),
-      Element::Header2.new(
-        Element::TextNode.new(
-          [Element::Text.new("piyo")]
-        )
-      ),
-      Element::Header2.new(
-        Element::TextNode.new(
-          [Element::Text.new("*fuga")]
-        )
-      ),
-      Element::Row.new(
-        Element::Blank.new,
-        Element::TextNode.new(
-          [Element::Text.new("foo")]
-        )
-      ),
-      Element::Row.new(
-        Element::TextNode.new(
-          [Element::Text.new("foo")]
-        ),
-        Element::TextNode.new(
-          [Element::Text.new("bar")]
-        )
-      ),
-      Element::Row.new(
-        Element::TextNode.new(
-          [Element::Text.new("foo")]
-        ),
-        Element::TextNode.new(
-          [Element::Text.new("bar:baz")]
-        )
-      ),
-      Element::List.new(
-        Element::TextNode.new(
-          [Element::Text.new("hogera")]
-        )
-      ),
-      Element::TextNode.new(
-        [Element::Text.new("Hello, World!")]
-      ),
-      Element::TextNode.new(
-        [
-          Element::Link.new("Hello, World!", nil),
+        expected_elements = [
+          Element::Header1.new(
+            Element::TextNode.new(
+              [Element::Text.new("hoge")]
+            )
+          ),
+          Element::Header2.new(
+            Element::TextNode.new(
+              [Element::Text.new("piyo")]
+            )
+          ),
+          Element::Header2.new(
+            Element::TextNode.new(
+              [Element::Text.new("*fuga")]
+            )
+          ),
+          Element::Row.new(
+            Element::Blank.new,
+            Element::TextNode.new(
+              [Element::Text.new("foo")]
+            )
+          ),
+          Element::Row.new(
+            Element::TextNode.new(
+              [Element::Text.new("foo")]
+            ),
+            Element::TextNode.new(
+              [Element::Text.new("bar")]
+            )
+          ),
+          Element::Row.new(
+            Element::TextNode.new(
+              [Element::Text.new("foo")]
+            ),
+            Element::TextNode.new(
+              [Element::Text.new("bar:baz")]
+            )
+          ),
+          Element::List.new(
+            Element::TextNode.new(
+              [Element::Text.new("hogera")]
+            )
+          ),
+          Element::TextNode.new(
+            [Element::Text.new("Hello, World!")]
+          ),
+          Element::TextNode.new(
+            [
+              Element::Link.new("Hello, World!", nil),
+            ]
+          ),
+          Element::TextNode.new(
+            [
+              Element::Link.new("Hello, World!", "http://example.com"),
+            ]
+          ),
+          Element::Blank.new,
         ]
-      ),
-      Element::TextNode.new(
-        [
-          Element::Link.new("Hello, World!", "http://example.com"),
-        ]
-      ),
-      Element::Blank.new,
-    ]
-    expected = Element::Root.new(expected_elements)
-    actual = Parser.new(comment).parse
+        expected = Element::Root.new(expected_elements)
+        actual = Parser.new(comment).parse
 
-    assert_equal expected, actual
-  end
+        assert_equal expected, actual
+      end
 
-  def test_parse_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_parse_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    assert Parser.new(sample_comment).parse.is_a?(Element::Root)
-  end
+        assert Parser.new(sample_comment).parse.is_a?(Element::Root)
+      end
 
-  def test_staffs_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_staffs_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    parser = Parser.new(sample_comment)
+        parser = Parser.new(sample_comment)
 
-    expect = Staff.new("原作", [Person.new("Magica Quartet", nil)])
-    assert_equal expect, parser.staffs.first
+        expect = Staff.new("原作", [Person.new("Magica Quartet", nil)])
+        assert_equal expect, parser.staffs.first
 
-    assert_equal 22, parser.staffs.length
-  end
+        assert_equal 22, parser.staffs.length
+      end
 
-  def test_casts_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_casts_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    parser = Parser.new(sample_comment)
+        parser = Parser.new(sample_comment)
 
-    expect = Cast.new("鹿目まどか", [Person.new("悠木碧", nil)])
-    assert_equal expect, parser.casts.first
+        expect = Cast.new("鹿目まどか", [Person.new("悠木碧", nil)])
+        assert_equal expect, parser.casts.first
 
-    assert_equal 11, parser.casts.length
-  end
+        assert_equal 11, parser.casts.length
+      end
 
-  def test_links_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_links_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    parser = Parser.new(sample_comment)
+        parser = Parser.new(sample_comment)
 
-    expect = Element::Link.new("公式", "http://www.madoka-magica.com/tv/")
-    assert_equal expect, parser.links.first
+        expect = Element::Link.new("公式", "http://www.madoka-magica.com/tv/")
+        assert_equal expect, parser.links.first
 
-    assert_equal 5, parser.links.length
-  end
+        assert_equal 5, parser.links.length
+      end
 
-  def test_musics_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_musics_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    parser = Parser.new(sample_comment)
+        parser = Parser.new(sample_comment)
 
-    expect = Music.new(
-      "コネクト",
-      "オープニングテーマ",
-      [
-        MusicData.new("作詞・作曲", "渡辺翔"),
-        MusicData.new("主題歌協力", "外村敬一"),
-        MusicData.new("歌", "ClariS"),
-        MusicData.new("使用話数", "#1～#9、#11"),
-      ]
-    )
-    assert_equal expect, parser.musics.first
+        expect = Music.new(
+          "コネクト",
+          "オープニングテーマ",
+          [
+            MusicData.new("作詞・作曲", "渡辺翔"),
+            MusicData.new("主題歌協力", "外村敬一"),
+            MusicData.new("歌", "ClariS"),
+            MusicData.new("使用話数", "#1～#9、#11"),
+          ]
+        )
+        assert_equal expect, parser.musics.first
 
-    assert_equal 5, parser.musics.length
-  end
+        assert_equal 5, parser.musics.length
+      end
 
-  def test_sections_sample
-    sample = JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
-    sample_comment = sample["comment"]
+      def test_sections_sample
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
+        sample_comment = sample["comment"]
 
-    parser = Parser.new(sample_comment)
+        parser = Parser.new(sample_comment)
 
-    assert parser.sections.first.instance_of?(Section)
-    assert_equal 11, parser.sections.count
+        assert parser.sections.first.instance_of?(Section)
+        assert_equal 11, parser.sections.count
+      end
+    end
   end
 end

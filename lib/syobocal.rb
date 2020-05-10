@@ -27,5 +27,7 @@ require "syobocal/comment/person"
 require "syobocal/comment/music"
 require "syobocal/comment/music_data"
 require "syobocal/comment/section"
+require "syobocal/sub_titles/sub_title"
+require "syobocal/sub_titles/parser"
 
 module Syobocal; end
