@@ -19,6 +19,15 @@ module Syobocal
 
         Person.new(name, note)
       end
+
+      def self.multi_parse(str)
+        Helper::Fragment.parse(str).to_a.map{|f|
+          name = f.text
+          note = f&.child&.to_s
+
+          Person.new(name, note)
+        }
+      end
     end
   end
 end

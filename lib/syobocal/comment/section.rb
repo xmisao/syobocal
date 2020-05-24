@@ -52,8 +52,21 @@ module Syobocal
 
         data_list = rows.map do |row|
           attr = row.attr_node.inner_text
+
+          attr_fragment = Helper::Fragment.parse(attr)
+
+          if attr_fragment.to_a.size == 1
+            attr_text = attr_fragment.text
+            attr_note = attr_fragment&.child&.to_s
+          else
+            attr_text = attr_fragment.to_s
+            attr_note = nil
+          end
+
           value = row.value_node.inner_text
-          MusicData.new(attr, value)
+          people = Person.multi_parse(value)
+
+          MusicData.new(attr, attr_text, attr_note, value, people)
         end
 
         Music.new(title, category, data_list)
