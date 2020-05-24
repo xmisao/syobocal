@@ -135,20 +135,39 @@ pp parser.casts.first
 #   [#<Syobocal::Comment::Person:0x0000564600051cd8 @name="悠木碧", @note=nil>]>
 
 pp parser.musics.first
-# #<Syobocal::Comment::Music:0x00005646000afc98
+# #<Syobocal::Comment::Music:0x0000561287c8f1a0
 #  @category="オープニングテーマ",
 #  @data_list=
-#   [#<Syobocal::Comment::MusicData:0x00005646000a0b30
+#   [#<Syobocal::Comment::MusicData:0x0000561287c8b8e8
 #     @attr="作詞・作曲",
+#     @attr_note=nil,
+#     @attr_text="作詞・作曲",
+#     @people=
+#      [#<Syobocal::Comment::Person:0x0000561287c8ba28 @name="渡辺翔", @note=nil>],
 #     @value="渡辺翔">,
-#    #<Syobocal::Comment::MusicData:0x00005646000a06a8
+#    #<Syobocal::Comment::MusicData:0x0000561287c8a3d0
 #     @attr="主題歌協力",
+#     @attr_note=nil,
+#     @attr_text="主題歌協力",
+#     @people=
+#      [#<Syobocal::Comment::Person:0x0000561287c8a510 @name="外村敬一", @note=nil>],
 #     @value="外村敬一">,
-#    #<Syobocal::Comment::MusicData:0x00005646000a0428
+#    #<Syobocal::Comment::MusicData:0x0000561287c88e90
 #     @attr="歌",
+#     @attr_note=nil,
+#     @attr_text="歌",
+#     @people=
+#      [#<Syobocal::Comment::Person:0x0000561287c88fd0
+#        @name="ClariS",
+#        @note=nil>],
 #     @value="ClariS">,
-#    #<Syobocal::Comment::MusicData:0x00005646000afd38
+#    #<Syobocal::Comment::MusicData:0x0000561287c8f2e0
 #     @attr="使用話数",
+#     @attr_note=nil,
+#     @attr_text="使用話数",
+#     @people=
+#      [#<Syobocal::Comment::Person:0x0000561287c8f560 @name="#1～#9", @note=nil>,
+#       #<Syobocal::Comment::Person:0x0000561287c8f420 @name="#11", @note=nil>],
 #     @value="#1～#9、#11">],
 #  @title="コネクト">
 ```

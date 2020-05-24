@@ -135,10 +135,10 @@ COMMENT
           "コネクト",
           "オープニングテーマ",
           [
-            MusicData.new("作詞・作曲", "渡辺翔"),
-            MusicData.new("主題歌協力", "外村敬一"),
-            MusicData.new("歌", "ClariS"),
-            MusicData.new("使用話数", "#1～#9、#11"),
+            MusicData.new("作詞・作曲", "作詞・作曲", nil, "渡辺翔", [Person.new("渡辺翔", nil)]),
+            MusicData.new("主題歌協力", "主題歌協力", nil, "外村敬一", [Person.new("外村敬一", nil)]),
+            MusicData.new("歌", "歌", nil, "ClariS", [Person.new("ClariS", nil)]),
+            MusicData.new("使用話数", "使用話数", nil, "#1～#9、#11", [Person.new("#1～#9", nil), Person.new("#11", nil)]),
           ]
         )
         assert_equal expect, parser.musics.first
