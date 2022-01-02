@@ -36,7 +36,7 @@ module Syobocal
 
     module TitleLookup
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -91,7 +91,7 @@ module Syobocal
 
     module ProgLookup
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -143,7 +143,7 @@ module Syobocal
 
     module ChLookup
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -189,7 +189,7 @@ module Syobocal
 
     module ChGroupLookup
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -231,7 +231,7 @@ module Syobocal
 
     module TitleViewCount
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -247,7 +247,7 @@ module Syobocal
 
     module TitleRankHistory
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -263,7 +263,7 @@ module Syobocal
 
     module TitlePointHistory
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
@@ -279,7 +279,7 @@ module Syobocal
 
     module TitlePointTop
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params)
