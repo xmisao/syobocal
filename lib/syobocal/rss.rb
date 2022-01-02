@@ -1,7 +1,7 @@
 module Syobocal
   module RSS
     def get(params = {})
-      parse(open(url(params)))
+      parse(URI.open(url(params)))
     end
 
     def url(params = {})

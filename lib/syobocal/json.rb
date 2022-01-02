@@ -2,7 +2,7 @@ module Syobocal
   module JSON
     module TitleMedium
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -18,7 +18,7 @@ module Syobocal
 
     module TitleLarge
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -34,7 +34,7 @@ module Syobocal
 
     module TitleFull
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -50,7 +50,7 @@ module Syobocal
 
     module ProgramByPID
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -66,7 +66,7 @@ module Syobocal
 
     module ProgramByCount
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -82,7 +82,7 @@ module Syobocal
 
     module ProgramByDate
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -98,7 +98,7 @@ module Syobocal
 
     module SubTitles
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -114,7 +114,7 @@ module Syobocal
 
     module ChFilter
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
@@ -130,7 +130,7 @@ module Syobocal
 
     module ChIDFilter
       def get(params = {})
-        parse(open(url(params)))
+        parse(URI.open(url(params)))
       end
 
       def url(params = {})
