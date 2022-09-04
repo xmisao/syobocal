@@ -101,6 +101,17 @@ COMMENT
         assert_equal 22, parser.staffs.length
       end
 
+      def test_staffs_not_include_invalid_people
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/116.json", __FILE__)))
+        sample_comment = sample["comment"]
+
+        parser = Parser.new(sample_comment)
+
+        assert parser.staffs.all? { |staff|
+          staff.people.none? { |person| person.name == nil }
+        }
+      end
+
       def test_casts_sample
         sample = ::JSON.parse(File.read(File.expand_path("../../samples/2077.json", __FILE__)))
         sample_comment = sample["comment"]
@@ -111,6 +122,17 @@ COMMENT
         assert_equal expect, parser.casts.first
 
         assert_equal 11, parser.casts.length
+      end
+
+      def test_casts_sample_not_include_invalid_people
+        sample = ::JSON.parse(File.read(File.expand_path("../../samples/91.json", __FILE__)))
+        sample_comment = sample["comment"]
+
+        parser = Parser.new(sample_comment)
+
+        assert parser.casts.all? { |cast|
+          cast.people.none? { |person| person.name == nil }
+        }
       end
 
       def test_links_sample

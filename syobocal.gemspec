@@ -1,4 +1,3 @@
-
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "syobocal/version"
@@ -27,9 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", ">= 13.0"
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "rufo", "~> 0.7"
-  spec.add_dependency "open-uri", "~> 0.2"
   spec.add_dependency "rexml", "~> 3.2"
   spec.add_dependency "rss", "~> 0.2"
 
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.required_ruby_version = ">= 3.1.0"
 end
