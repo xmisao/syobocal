@@ -76,21 +76,25 @@ module Syobocal
       private
 
       def create_staff_list(rows)
-        rows.map do |row|
+        staffs = rows.map do |row|
           role = row.attr_node.inner_text
           people = row.value_node.split.map { |str| Person.parse(str) }
 
-          Staff.new(role, people)
+          Staff.new(role, people.select(&:valid?))
         end
+
+        staffs.select { |staff| !staff.people.empty? }
       end
 
       def create_cast_list(rows)
-        rows.map do |row|
+        casts = rows.map do |row|
           character = row.attr_node.inner_text
           people = row.value_node.split.map { |str| Person.parse(str) }
 
-          Cast.new(character, people)
+          Cast.new(character, people.select(&:valid?))
         end
+
+        casts.select { |cast| !cast.people.empty? }
       end
 
       def create_musics(sections)

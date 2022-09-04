@@ -2,9 +2,9 @@ module Syobocal
   module Comment
     module Helper
       class Fragment
-        CHILD_BEGIN = '('
-        CHILD_END = ')'
-        SEPARATOR = '、'
+        CHILD_BEGIN = "("
+        CHILD_END = ")"
+        SEPARATOR = "、"
 
         attr_reader :text, :child, :following
 
@@ -42,7 +42,7 @@ module Syobocal
         end
 
         def pretty_output(level = 0)
-          line = level.times.map{' '}.join
+          line = level.times.map { " " }.join
 
           line << text
 
@@ -66,7 +66,7 @@ module Syobocal
         end
 
         def to_s
-          to_a.map{|f|
+          to_a.map { |f|
             if f.child
               "#{f.text}(#{f.child.to_s})"
             else

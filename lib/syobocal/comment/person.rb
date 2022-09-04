@@ -14,14 +14,18 @@ module Syobocal
         other.instance_of?(self.class) && other.name == name && other.note == note
       end
 
+      def valid?
+        !name.nil? && !name.empty?
+      end
+
       def self.parse(str)
         _, name, note = *(str.match(/\A([^\(\)]+?)(?:\((.*?)\))?\Z/).to_a)
 
-        Person.new(name, note)
+        Person.new(name&.strip, note&.strip)
       end
 
       def self.multi_parse(str)
-        Helper::Fragment.parse(str).to_a.map{|f|
+        Helper::Fragment.parse(str).to_a.map { |f|
           name = f.text
           note = f&.child&.to_s
 

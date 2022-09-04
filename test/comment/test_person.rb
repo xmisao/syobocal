@@ -10,4 +10,10 @@ class TestPerson < MiniTest::Test
 
     assert_equal expect, actual
   end
+
+  def test_valid?
+    assert_equal false, Person.new("", "piyo").valid?
+    assert_equal false, Person.new(nil, "piyo").valid?
+    assert_equal true, Person.new("hoge", "piyo").valid?
+  end
 end
